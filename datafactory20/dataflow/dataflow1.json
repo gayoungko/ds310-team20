@@ -1,0 +1,91 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CosmosDbNoSqlContainer1",
+						"type": "DatasetReference"
+					},
+					"name": "milestone1cosmosdb"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parquet1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          CountryName as string,",
+				"          CountryCode as string,",
+				"          RegionName as string,",
+				"          RegionCode as string,",
+				"          Jurisdiction as string,",
+				"          Date as string,",
+				"          C1Schoolclosing as integer,",
+				"          C1Flag as integer,",
+				"          C2Workplaceclosing as integer,",
+				"          C2Flag as integer,",
+				"          C3Cancelpublicevents as integer,",
+				"          C3Flag as integer,",
+				"          C4Restrictionsongatherings as integer,",
+				"          C4Flag as integer,",
+				"          C5Closepublictransport as integer,",
+				"          C5Flag as integer,",
+				"          C6Stayathomerequirements as integer,",
+				"          C6Flag as integer,",
+				"          C7Restrictionsoninternalmovement as integer,",
+				"          C7Flag as integer,",
+				"          C8Internationaltravelcontrols as integer,",
+				"          E1Incomesupport as integer,",
+				"          E1Flag as integer,",
+				"          E2Debtcontractrelief as integer,",
+				"          E3Fiscalmeasures as integer,",
+				"          E4Internationalsupport as integer,",
+				"          H1Publicinformationcampaigns as integer,",
+				"          H1Flag as integer,",
+				"          H2Testingpolicy as integer,",
+				"          H3Contacttracing as integer,",
+				"          H4Emergencyinvestmentinhealthcare as integer,",
+				"          H5Investmentinvaccines as integer,",
+				"          H6FacialCoverings as integer,",
+				"          H6Flag as integer,",
+				"          H7Vaccinationpolicy as integer,",
+				"          H7Flag as integer,",
+				"          H8Protectionofelderlypeople as integer,",
+				"          H8Flag as integer,",
+				"          M1Wildcard as integer,",
+				"          StringencyIndex as integer,",
+				"          StringencyIndexForDisplay as integer,",
+				"          StringencyLegacyIndex as integer,",
+				"          StringencyLegacyIndexForDisplay as integer,",
+				"          GovernmentResponseIndex as integer,",
+				"          GovernmentResponseIndexForDisplay as integer,",
+				"          ContainmentHealthIndex as integer,",
+				"          ContainmentHealthIndexForDisplay as integer,",
+				"          EconomicSupportIndex as integer,",
+				"          EconomicSupportIndexForDisplay as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'document') ~> milestone1cosmosdb",
+				"milestone1cosmosdb sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
