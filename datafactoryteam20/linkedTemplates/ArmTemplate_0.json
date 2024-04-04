@@ -19,6 +19,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage4'"
 		},
+		"AzureDataLakeStorage5_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage5'"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"CosmosDbNoSql1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'CosmosDbNoSql1'"
@@ -39,10 +47,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer4'"
 		},
-		"AzureDataLakeStorage2_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage2'"
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://storageteam20.dfs.core.windows.net/"
@@ -55,7 +59,7 @@
 			"type": "string",
 			"defaultValue": "https://storageteam20.dfs.core.windows.net/"
 		},
-		"AzureDataLakeStorage2_properties_typeProperties_url": {
+		"AzureDataLakeStorage5_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://storageteam20.dfs.core.windows.net/"
 		}
@@ -111,6 +115,36 @@
 						"type": "SecureString",
 						"value": "[parameters('AzureDataLakeStorage4_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage5')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage5_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage5_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -189,6 +223,48 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Country",
+						"type": "varchar"
+					},
+					{
+						"name": "CountryCode",
+						"type": "varchar"
+					},
+					{
+						"name": "Latitude",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 5
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Country"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CosmosDbNoSqlContainer1')]",
@@ -724,300 +800,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Parquet5')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "onprem"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage3')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Parquet6')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage4",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "cosmosdbcontainer"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "CountryName",
-						"type": "UTF8"
-					},
-					{
-						"name": "CountryCode",
-						"type": "UTF8"
-					},
-					{
-						"name": "RegionName",
-						"type": "UTF8"
-					},
-					{
-						"name": "RegionCode",
-						"type": "DECIMAL",
-						"precision": 38,
-						"scale": 18
-					},
-					{
-						"name": "Jurisdiction",
-						"type": "UTF8"
-					},
-					{
-						"name": "Date",
-						"type": "INT96"
-					},
-					{
-						"name": "C1_Schoolclosing",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C1_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C2_Workplaceclosing",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C2_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C3_Cancelpublicevents",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C3_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C4_Restrictionsongatherings",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C4_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C5_Closepublictransport",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C5_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C6_Stayathomerequirements",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C6_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C7_Restrictionsoninternalmovement",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "C7_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "C8_Internationaltravelcontrols",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "E1_Incomesupport",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "E1_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "E2_Debtcontractrelief",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "E3_Fiscalmeasures",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "E4_Internationalsupport",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "H1_Publicinformationcampaigns",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "H1_Flag",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "H2_Testingpolicy",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "H3_Contacttracing",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "H4_Emergencyinvestmentinhealthcare",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "H5_Investmentinvaccines",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "H6_FacialCoverings",
-						"type": "INT64"
-					},
-					{
-						"name": "H6_Flag",
-						"type": "INT64"
-					},
-					{
-						"name": "H7_Vaccinationpolicy",
-						"type": "INT64"
-					},
-					{
-						"name": "H7_Flag",
-						"type": "INT64"
-					},
-					{
-						"name": "H8_Protectionofelderlypeople",
-						"type": "INT64"
-					},
-					{
-						"name": "H8_Flag",
-						"type": "INT64"
-					},
-					{
-						"name": "M1_Wildcard",
-						"type": "INT64"
-					},
-					{
-						"name": "StringencyIndex",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "StringencyIndexForDisplay",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "StringencyLegacyIndex",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "StringencyLegacyIndexForDisplay",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "GovernmentResponseIndex",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "GovernmentResponseIndexForDisplay",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "ContainmentHealthIndex",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "ContainmentHealthIndexForDisplay",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "EconomicSupportIndex",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "EconomicSupportIndexForDisplay",
-						"type": "DOUBLE"
-					},
-					{
-						"name": "id",
-						"type": "UTF8"
-					},
-					{
-						"name": "_rid",
-						"type": "UTF8"
-					},
-					{
-						"name": "_self",
-						"type": "UTF8"
-					},
-					{
-						"name": "_etag",
-						"type": "UTF8"
-					},
-					{
-						"name": "_attachments",
-						"type": "UTF8"
-					},
-					{
-						"name": "_ts",
-						"type": "INT64"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage4')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage2_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage2_accountKey')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntime1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
 			]
 		}
 	]
