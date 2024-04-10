@@ -1800,6 +1800,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "metricsshir",
 						"fileSystem": "sqlservercontainer"
 					},
 					"compressionCodec": "snappy"
