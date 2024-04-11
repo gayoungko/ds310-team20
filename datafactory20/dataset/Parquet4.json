@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "metricsshir",
+				"fileName": "metricsshir.parquet",
 				"fileSystem": "sqlservercontainer"
 			},
 			"compressionCodec": "snappy"

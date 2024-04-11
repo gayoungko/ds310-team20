@@ -1,0 +1,19 @@
+{
+	"name": "cases",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage6",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "operationaldatastore"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
