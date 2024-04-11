@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SqlServermetrics",
+						"referenceName": "Parquet4",
 						"type": "DatasetReference"
 					},
 					"name": "metricsshir"
@@ -95,7 +95,7 @@
 					"name": "deaths"
 				},
 				{
-					"name": "select2"
+					"name": "recover"
 				}
 			],
 			"scriptLines": [
@@ -117,8 +117,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> metricsshir",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> metricsshir",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",
@@ -278,7 +278,7 @@
 				"          load_time",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
+				"     skipDuplicateMapOutputs: true) ~> recover",
 				"cases sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -295,7 +295,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> death",
-				"select2 sink(allowSchemaDrift: true,",
+				"recover sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     umask: 0022,",
