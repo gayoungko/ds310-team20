@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "metricsshir",
+						"type": "DatasetReference"
+					},
 					"name": "metricsshir"
 				},
 				{
@@ -112,7 +116,9 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> metricsshir",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> metricsshir",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",
