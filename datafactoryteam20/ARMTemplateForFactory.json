@@ -117,9 +117,15 @@
 								"parameters": {},
 								"datasetParameters": {
 									"metricsshir": {},
+									"policies": {},
+									"geography": {},
+									"dates": {},
 									"case": {},
 									"death": {},
-									"recovered": {}
+									"recovered": {},
+									"policiesink": {},
+									"geographysink": {},
+									"datesink": {}
 								}
 							},
 							"staging": {},
@@ -1199,6 +1205,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "policies.parquet",
 						"fileSystem": "operationaldatastore"
 					},
 					"compressionCodec": "snappy"
@@ -2729,6 +2736,27 @@
 								"type": "DatasetReference"
 							},
 							"name": "metricsshir"
+						},
+						{
+							"dataset": {
+								"referenceName": "Parquet2",
+								"type": "DatasetReference"
+							},
+							"name": "policies"
+						},
+						{
+							"dataset": {
+								"referenceName": "Parquet4",
+								"type": "DatasetReference"
+							},
+							"name": "geography"
+						},
+						{
+							"dataset": {
+								"referenceName": "Parquet5",
+								"type": "DatasetReference"
+							},
+							"name": "dates"
 						}
 					],
 					"sinks": [
@@ -2752,6 +2780,27 @@
 								"type": "DatasetReference"
 							},
 							"name": "recovered"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODSpolicy",
+								"type": "DatasetReference"
+							},
+							"name": "policiesink"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODSgeo",
+								"type": "DatasetReference"
+							},
+							"name": "geographysink"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODSdate",
+								"type": "DatasetReference"
+							},
+							"name": "datesink"
 						}
 					],
 					"transformations": [
@@ -2789,6 +2838,103 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet') ~> metricsshir",
+						"source(output(",
+						"          CountryName as string,",
+						"          CountryCode as string,",
+						"          RegionName as string,",
+						"          RegionCode as decimal(38,18),",
+						"          Jurisdiction as string,",
+						"          Date as timestamp,",
+						"          C1_Schoolclosing as double,",
+						"          C1_Flag as boolean,",
+						"          C2_Workplaceclosing as double,",
+						"          C2_Flag as boolean,",
+						"          C3_Cancelpublicevents as double,",
+						"          C3_Flag as boolean,",
+						"          C4_Restrictionsongatherings as double,",
+						"          C4_Flag as boolean,",
+						"          C5_Closepublictransport as double,",
+						"          C5_Flag as boolean,",
+						"          C6_Stayathomerequirements as double,",
+						"          C6_Flag as boolean,",
+						"          C7_Restrictionsoninternalmovement as double,",
+						"          C7_Flag as boolean,",
+						"          C8_Internationaltravelcontrols as double,",
+						"          E1_Incomesupport as double,",
+						"          E1_Flag as boolean,",
+						"          E2_Debtcontractrelief as double,",
+						"          E3_Fiscalmeasures as double,",
+						"          E4_Internationalsupport as double,",
+						"          H1_Publicinformationcampaigns as double,",
+						"          H1_Flag as boolean,",
+						"          H2_Testingpolicy as double,",
+						"          H3_Contacttracing as double,",
+						"          H4_Emergencyinvestmentinhealthcare as double,",
+						"          H5_Investmentinvaccines as double,",
+						"          H6_FacialCoverings as long,",
+						"          H6_Flag as long,",
+						"          H7_Vaccinationpolicy as long,",
+						"          H7_Flag as long,",
+						"          H8_Protectionofelderlypeople as long,",
+						"          H8_Flag as long,",
+						"          M1_Wildcard as long,",
+						"          StringencyIndex as double,",
+						"          StringencyIndexForDisplay as double,",
+						"          StringencyLegacyIndex as double,",
+						"          StringencyLegacyIndexForDisplay as double,",
+						"          GovernmentResponseIndex as double,",
+						"          GovernmentResponseIndexForDisplay as double,",
+						"          ContainmentHealthIndex as double,",
+						"          ContainmentHealthIndexForDisplay as double,",
+						"          EconomicSupportIndex as double,",
+						"          EconomicSupportIndexForDisplay as double,",
+						"          id as string,",
+						"          {_rid} as string,",
+						"          {_self} as string,",
+						"          {_etag} as string,",
+						"          {_attachments} as string,",
+						"          {_ts} as long",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> policies",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> geography",
+						"source(output(",
+						"          DateKey as integer,",
+						"          FullDate as date,",
+						"          isWeekDay as boolean,",
+						"          DayOfWeek as integer,",
+						"          DayOfMonth as integer,",
+						"          DayOfQuarter as integer,",
+						"          DayOfYear as integer,",
+						"          DayName as string,",
+						"          WeekOfYear as integer,",
+						"          WeekName as string,",
+						"          MonthOfYear as integer,",
+						"          MonthName as string,",
+						"          CalendarQuarter as integer,",
+						"          CalendarQuarterName as string,",
+						"          CalendarYear as integer,",
+						"          FiscalMonth as integer,",
+						"          FiscalMonthName as string,",
+						"          FiscalQuarter as integer,",
+						"          FiscalQuarterName as string,",
+						"          FiscalYear as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet') ~> dates",
 						"union1 select(mapColumn(",
 						"          ID,",
 						"          Updated,",
@@ -2855,15 +3001,45 @@
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> recovered"
+						"     skipDuplicateMapOutputs: true) ~> recovered",
+						"policies sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> policiesink",
+						"geography sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> geographysink",
+						"dates sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> datesink"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/metricsshir')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet2')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet4')]",
+				"[concat(variables('factoryId'), '/datasets/Parquet5')]",
 				"[concat(variables('factoryId'), '/datasets/ODScases')]",
 				"[concat(variables('factoryId'), '/datasets/ODSdeaths')]",
-				"[concat(variables('factoryId'), '/datasets/ODSrecovered')]"
+				"[concat(variables('factoryId'), '/datasets/ODSrecovered')]",
+				"[concat(variables('factoryId'), '/datasets/ODSpolicy')]",
+				"[concat(variables('factoryId'), '/datasets/ODSgeo')]",
+				"[concat(variables('factoryId'), '/datasets/ODSdate')]"
 			]
 		},
 		{
@@ -3212,6 +3388,453 @@
 				"[concat(variables('factoryId'), '/datasets/ODSdate')]",
 				"[concat(variables('factoryId'), '/datasets/ODSgeo')]",
 				"[concat(variables('factoryId'), '/datasets/ODSpolicy')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage6",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "operationaldatastore"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage6')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage6",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "policies",
+						"fileSystem": "cosmosdbcontainer"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "CountryName",
+						"type": "UTF8"
+					},
+					{
+						"name": "CountryCode",
+						"type": "UTF8"
+					},
+					{
+						"name": "RegionName",
+						"type": "UTF8"
+					},
+					{
+						"name": "RegionCode",
+						"type": "DECIMAL",
+						"precision": 38,
+						"scale": 18
+					},
+					{
+						"name": "Jurisdiction",
+						"type": "UTF8"
+					},
+					{
+						"name": "Date",
+						"type": "INT96"
+					},
+					{
+						"name": "C1_Schoolclosing",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C1_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C2_Workplaceclosing",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C2_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C3_Cancelpublicevents",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C3_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C4_Restrictionsongatherings",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C4_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C5_Closepublictransport",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C5_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C6_Stayathomerequirements",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C6_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C7_Restrictionsoninternalmovement",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "C7_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "C8_Internationaltravelcontrols",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "E1_Incomesupport",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "E1_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "E2_Debtcontractrelief",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "E3_Fiscalmeasures",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "E4_Internationalsupport",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "H1_Publicinformationcampaigns",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "H1_Flag",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "H2_Testingpolicy",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "H3_Contacttracing",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "H4_Emergencyinvestmentinhealthcare",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "H5_Investmentinvaccines",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "H6_FacialCoverings",
+						"type": "INT64"
+					},
+					{
+						"name": "H6_Flag",
+						"type": "INT64"
+					},
+					{
+						"name": "H7_Vaccinationpolicy",
+						"type": "INT64"
+					},
+					{
+						"name": "H7_Flag",
+						"type": "INT64"
+					},
+					{
+						"name": "H8_Protectionofelderlypeople",
+						"type": "INT64"
+					},
+					{
+						"name": "H8_Flag",
+						"type": "INT64"
+					},
+					{
+						"name": "M1_Wildcard",
+						"type": "INT64"
+					},
+					{
+						"name": "StringencyIndex",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "StringencyIndexForDisplay",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "StringencyLegacyIndex",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "StringencyLegacyIndexForDisplay",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "GovernmentResponseIndex",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "GovernmentResponseIndexForDisplay",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "ContainmentHealthIndex",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "ContainmentHealthIndexForDisplay",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "EconomicSupportIndex",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "EconomicSupportIndexForDisplay",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "id",
+						"type": "UTF8"
+					},
+					{
+						"name": "_rid",
+						"type": "UTF8"
+					},
+					{
+						"name": "_self",
+						"type": "UTF8"
+					},
+					{
+						"name": "_etag",
+						"type": "UTF8"
+					},
+					{
+						"name": "_attachments",
+						"type": "UTF8"
+					},
+					{
+						"name": "_ts",
+						"type": "INT64"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage6')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage6",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage6')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage6",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dbo.Country.parquet",
+						"fileSystem": "sqldbcontainer"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "Country",
+						"type": "UTF8"
+					},
+					{
+						"name": "CountryCode",
+						"type": "UTF8"
+					},
+					{
+						"name": "Latitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage6')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage6",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dbo.Dates.parquet",
+						"fileSystem": "sqldbcontainer"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "DateKey",
+						"type": "INT32"
+					},
+					{
+						"name": "FullDate",
+						"type": "DATE"
+					},
+					{
+						"name": "isWeekDay",
+						"type": "BOOLEAN"
+					},
+					{
+						"name": "DayOfWeek",
+						"type": "INT32"
+					},
+					{
+						"name": "DayOfMonth",
+						"type": "INT32"
+					},
+					{
+						"name": "DayOfQuarter",
+						"type": "INT32"
+					},
+					{
+						"name": "DayOfYear",
+						"type": "INT32"
+					},
+					{
+						"name": "DayName",
+						"type": "UTF8"
+					},
+					{
+						"name": "WeekOfYear",
+						"type": "INT32"
+					},
+					{
+						"name": "WeekName",
+						"type": "UTF8"
+					},
+					{
+						"name": "MonthOfYear",
+						"type": "INT32"
+					},
+					{
+						"name": "MonthName",
+						"type": "UTF8"
+					},
+					{
+						"name": "CalendarQuarter",
+						"type": "INT32"
+					},
+					{
+						"name": "CalendarQuarterName",
+						"type": "UTF8"
+					},
+					{
+						"name": "CalendarYear",
+						"type": "INT32"
+					},
+					{
+						"name": "FiscalMonth",
+						"type": "INT32"
+					},
+					{
+						"name": "FiscalMonthName",
+						"type": "UTF8"
+					},
+					{
+						"name": "FiscalQuarter",
+						"type": "INT32"
+					},
+					{
+						"name": "FiscalQuarterName",
+						"type": "UTF8"
+					},
+					{
+						"name": "FiscalYear",
+						"type": "INT32"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage6')]"
 			]
 		}
 	]

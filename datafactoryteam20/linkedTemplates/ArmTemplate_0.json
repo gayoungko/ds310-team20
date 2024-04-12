@@ -359,6 +359,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "policies.parquet",
 						"fileSystem": "operationaldatastore"
 					},
 					"compressionCodec": "snappy"
