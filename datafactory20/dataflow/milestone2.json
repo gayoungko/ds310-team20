@@ -5,36 +5,32 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "Parquet4",
-						"type": "DatasetReference"
-					},
 					"name": "metricsshir"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "azureMetrics",
 						"type": "DatasetReference"
 					},
 					"name": "azure"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "azureDates",
 						"type": "DatasetReference"
 					},
 					"name": "dates"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "azureCountry",
 						"type": "DatasetReference"
 					},
 					"name": "country"
 				},
 				{
 					"dataset": {
-						"referenceName": "Parquet6",
+						"referenceName": "cosmosparquet",
 						"type": "DatasetReference"
 					},
 					"name": "policy"
@@ -43,42 +39,42 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "cases",
+						"referenceName": "ODScases",
 						"type": "DatasetReference"
 					},
 					"name": "case"
 				},
 				{
 					"dataset": {
-						"referenceName": "deaths",
+						"referenceName": "ODSdeaths",
 						"type": "DatasetReference"
 					},
 					"name": "death"
 				},
 				{
 					"dataset": {
-						"referenceName": "recovered",
+						"referenceName": "ODSrecovered",
 						"type": "DatasetReference"
 					},
 					"name": "recovered"
 				},
 				{
 					"dataset": {
-						"referenceName": "Parquet8",
+						"referenceName": "ODSdate",
 						"type": "DatasetReference"
 					},
 					"name": "datessink"
 				},
 				{
 					"dataset": {
-						"referenceName": "Parquet9",
+						"referenceName": "ODSgeo",
 						"type": "DatasetReference"
 					},
 					"name": "geosink"
 				},
 				{
 					"dataset": {
-						"referenceName": "Parquet10",
+						"referenceName": "ODSpolicy",
 						"type": "DatasetReference"
 					},
 					"name": "policysink"
@@ -116,9 +112,7 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> metricsshir",
+				"     validateSchema: false) ~> metricsshir",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",

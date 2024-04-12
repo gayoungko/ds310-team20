@@ -1,5 +1,5 @@
 {
-	"name": "Parquet10",
+	"name": "ODSpolicy",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage6",

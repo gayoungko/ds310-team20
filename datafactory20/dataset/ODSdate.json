@@ -1,5 +1,5 @@
 {
-	"name": "Parquet8",
+	"name": "ODSdate",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage6",

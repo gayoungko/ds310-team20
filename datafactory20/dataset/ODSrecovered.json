@@ -1,5 +1,5 @@
 {
-	"name": "recovered",
+	"name": "ODSrecovered",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage6",

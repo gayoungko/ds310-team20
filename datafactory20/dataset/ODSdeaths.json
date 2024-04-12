@@ -1,5 +1,5 @@
 {
-	"name": "deaths",
+	"name": "ODSdeaths",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage6",

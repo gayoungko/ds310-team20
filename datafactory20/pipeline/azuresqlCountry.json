@@ -41,13 +41,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "azureCountry",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet7",
+						"referenceName": "azureparquet",
 						"type": "DatasetReference"
 					}
 				]

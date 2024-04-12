@@ -1,5 +1,5 @@
 {
-	"name": "Parquet6",
+	"name": "cosmosparquet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage4",

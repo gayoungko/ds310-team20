@@ -1,5 +1,5 @@
 {
-	"name": "cases",
+	"name": "ODScases",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage6",

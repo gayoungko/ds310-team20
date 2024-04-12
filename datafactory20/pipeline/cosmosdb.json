@@ -518,13 +518,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "CosmosDbNoSqlContainer1",
+						"referenceName": "cosmosdbpolicy",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet6",
+						"referenceName": "cosmosparquet",
 						"type": "DatasetReference"
 					}
 				]
