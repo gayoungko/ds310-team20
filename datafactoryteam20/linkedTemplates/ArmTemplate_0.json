@@ -386,7 +386,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "recoveries",
 						"fileSystem": "operationaldatastore"
 					},
 					"compressionCodec": "snappy"
