@@ -31,6 +31,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "dates"
+				},
+				{
+					"dataset": {
+						"referenceName": "azureMetrics",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -209,6 +216,26 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> dates",
+				"source(output(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Confirmed as integer,",
+				"          Confirmed_Change as integer,",
+				"          Deaths as integer,",
+				"          Deaths_Change as integer,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5),",
+				"          ISO2 as string,",
+				"          ISO3 as string,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
 				"union1 select(mapColumn(",
 				"          ID,",
 				"          Updated,",
@@ -223,7 +250,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> cases",
-				"metricsshir union(byName: true)~> union1",
+				"metricsshir, source1 union(byName: true)~> union1",
 				"union1 select(mapColumn(",
 				"          ID,",
 				"          Updated,",
